@@ -1,0 +1,21 @@
+diff a/kernel/kernelvec.S b/kernel/kernelvec.S	(rejected hunks)
+@@ -103,6 +103,9 @@ timervec:
+         sd a2, 8(a0)
+         sd a3, 16(a0)
+
++        ld a1, 40(a0)
++        bne a1, zero, shutdown
++
+         # schedule the next timer interrupt
+         # by adding interval to mtimecmp.
+         ld a1, 24(a0) # CLINT_MTIMECMP(hart)
+@@ -122,3 +125,9 @@ timervec:
+         csrrw a0, mscratch, a0
+
+         mret
++
++        shutdown:
++        lui a1, 0x100
++        lui a2, 0x5
++        addi a2, a2, 0x555
++        sw a2, 0(a1)

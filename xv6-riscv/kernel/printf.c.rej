@@ -1,0 +1,9 @@
+diff a/kernel/printf.c b/kernel/printf.c	(rejected hunks)
+@@ -123,6 +123,7 @@ panic(char *s)
+   printf(s);
+   printf("\n");
+   panicked = 1; // freeze uart output from other CPUs
++  halt() ;
+   for(;;)
+     ;
+ }

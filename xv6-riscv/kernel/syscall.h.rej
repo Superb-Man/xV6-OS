@@ -1,0 +1,9 @@
+diff a/kernel/syscall.h b/kernel/syscall.h	(rejected hunks)
+@@ -20,3 +20,6 @@
+ #define SYS_link   19
+ #define SYS_mkdir  20
+ #define SYS_close  21
++#define SYS_trace  22
++#define SYS_history 23
++#define SYS_shutdown 24
+\ No newline at end of file

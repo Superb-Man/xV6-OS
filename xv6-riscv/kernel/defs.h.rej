@@ -1,0 +1,28 @@
+diff a/kernel/defs.h b/kernel/defs.h	(rejected hunks)
+@@ -8,6 +8,7 @@ struct spinlock;
+ struct sleeplock;
+ struct stat;
+ struct superblock;
++struct syscall_stat ;
+
+ // bio.c
+ void            binit(void);
+@@ -124,6 +126,9 @@ void            releasesleep(struct sleeplock*);
+ int             holdingsleep(struct sleeplock*);
+ void            initsleeplock(struct sleeplock*, char*);
+
++//start.c
++void halt() ;
++
+ // string.c
+ int             memcmp(const void*, const void*, uint);
+ void*           memmove(void*, const void*, uint);
+@@ -140,6 +145,8 @@ void            argaddr(int, uint64 *);
+ int             fetchstr(uint64, char*, int);
+ int             fetchaddr(uint64, uint64*);
+ void            syscall();
++extern char* names[];
++extern int num_of_syscall ;
+
+ // trap.c
+ extern uint     ticks;

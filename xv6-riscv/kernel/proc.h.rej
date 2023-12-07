@@ -1,0 +1,11 @@
+diff a/kernel/proc.h b/kernel/proc.h	(rejected hunks)
+@@ -104,4 +104,9 @@ struct proc {
+   struct file *ofile[NOFILE];  // Open files
+   struct inode *cwd;           // Current directory
+   char name[16];               // Process name (debugging)
++  int tracer_id;               //Id of the current process
++  int type[6] ;
++  uint64 args[6] ;
++  char str[6][16] ;
++
+ };

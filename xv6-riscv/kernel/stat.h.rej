@@ -1,0 +1,14 @@
+diff a/kernel/stat.h b/kernel/stat.h	(rejected hunks)
+@@ -9,3 +9,11 @@ struct stat {
+   short nlink; // Number of links to file
+   uint64 size; // Size of file in bytes
+ };
++
++struct syscall_stat {
++  char syscall_name[16];
++  int count;
++  int accum_time;
++};
++
++extern struct syscall_stat array[] ;
+\ No newline at end of file

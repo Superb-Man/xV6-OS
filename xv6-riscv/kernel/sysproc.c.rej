@@ -1,0 +1,64 @@
+diff a/kernel/sysproc.c b/kernel/sysproc.c	(rejected hunks)
+@@ -5,6 +5,7 @@
+ #include "memlayout.h"
+ #include "spinlock.h"
+ #include "proc.h"
++#include "stat.h"
+
+ uint64
+ sys_exit(void)
+@@ -89,3 +90,54 @@ sys_uptime(void)
+   release(&tickslock);
+   return xticks;
+ }
++
++//tracer Id for current process
++uint64
++sys_trace(void)
++{
++  int tracer_id  ;
++  argint(0, &tracer_id) ;
++
++  if(tracer_id < 0) return -1 ;
++  myproc()->tracer_id = tracer_id ;
++
++  return 0 ;
++}
++
++//History for system calls
++uint64
++sys_history(void)
++{
++  uint64 addr ;
++  int sys_id ;
++
++  argint(0, &sys_id) ;
++  argaddr(1, &addr) ;
++
++  if(sys_id > num_of_syscall - 1 || sys_id <= 0) {
++    return -1 ;
++  }
++  struct syscall_stat _st ;
++
++  int _size = sizeof (names[sys_id]);
++
++  strncpy(_st.syscall_name, names[sys_id] ,_size-1) ;
++  _st.accum_time = array[sys_id].accum_time ;
++  _st.count = array[sys_id].count ;
++
++  struct proc* p = myproc() ;
++
++  if(copyout(p->pagetable, addr, (char*)&_st , sizeof(_st)) < 0){
++    return 1 ;
++  }
++
++  return 0 ;
++
++}
++
++uint64
++sys_shutdown(void)
++{
++  halt() ;
++  return 0 ;
++}

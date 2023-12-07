@@ -1,0 +1,29 @@
+diff a/kernel/proc.c b/kernel/proc.c	(rejected hunks)
+@@ -145,6 +145,7 @@ found:
+   memset(&p->context, 0, sizeof(p->context));
+   p->context.ra = (uint64)forkret;
+   p->context.sp = p->kstack + PGSIZE;
++  p->tracer_id = -1 ;
+
+   return p;
+ }
+@@ -169,6 +170,7 @@ freeproc(struct proc *p)
+   p->killed = 0;
+   p->xstate = 0;
+   p->state = UNUSED;
++  p->tracer_id = -1;
+ }
+
+ // Create a user page table for a given process, with no user memory,
+@@ -317,11 +319,10 @@ fork(void)
+   acquire(&wait_lock);
+   np->parent = p;
+   release(&wait_lock);
+-
+   acquire(&np->lock);
+   np->state = RUNNABLE;
+   release(&np->lock);
+-
++  np->tracer_id = p->tracer_id ;
+   return pid;
+ }
